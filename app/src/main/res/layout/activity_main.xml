@@ -34,7 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:hint="Endpoint" />
+            android:hint="Endpoint"
+            android:text="wss://prod-in.100ms.live/ws" />
 
         <EditText
             android:id="@+id/mainRoomId"
@@ -42,7 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:hint="Room ID" />
+            android:hint="Room ID"
+            android:text="test" />
 
         <EditText
             android:id="@+id/mainUserName"
@@ -50,7 +52,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:hint="User Name" />
+            android:hint="User Name"
+            android:text="rana" />
+        <Button
+            android:id="@+id/mainConnectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Connect"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

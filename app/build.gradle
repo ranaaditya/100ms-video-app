@@ -17,10 +17,21 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "TOKEN_ENDPOINT", TOKEN_ENDPOINT
+
+            minifyEnabled false
+        }
         release {
+            buildConfigField "String", "TOKEN_ENDPOINT", TOKEN_ENDPOINT
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -34,8 +45,12 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    implementation project(':brytecam-sdk-0.9.11')
+
     implementation 'org.webrtc:google-webrtc:1.0.32006'
     implementation 'com.squareup.okhttp3:okhttp:3.6.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'org.jetbrains:annotations:15.0'
+
+    implementation 'pub.devrel:easypermissions:1.1.3'
 }

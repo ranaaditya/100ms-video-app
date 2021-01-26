@@ -1,9 +1,339 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/videoCoordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RoomActivity">
+    android:keepScreenOn="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="MergeRootFrame">
+
+        <LinearLayout
+            android:id="@+id/reconnect_progressview"
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/holo_red_dark"
+                android:text="Reconnecting...">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="2"
+            android:rowCount="4">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1">
+
+                <Button
+                    android:id="@+id/button1"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="onParticipantsClicked"
+                    android:tag="-1"
+                    android:text="" />
+
+                <org.webrtc.SurfaceViewRenderer
+                    android:id="@+id/user_view"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/firstpeer_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="16dp"
+                    android:text="1. From camera"
+                    android:textColor="#fff" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1">
+
+                <Button
+                    android:id="@+id/button2"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="onParticipantsClicked"
+                    android:tag="0"
+                    android:text="" />
+
+                <org.webrtc.SurfaceViewRenderer
+                    android:id="@+id/remote_view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/secondpeer_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="16dp"
+                    android:textColor="#fff" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1">
+
+                <Button
+                    android:id="@+id/button3"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="onParticipantsClicked"
+                    android:tag="1"
+                    android:text="" />
+
+                <org.webrtc.SurfaceViewRenderer
+                    android:id="@+id/remote_view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/thirdpeer_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="16dp"
+                    android:textColor="#fff" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1">
+
+                <Button
+                    android:id="@+id/button4"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="onParticipantsClicked"
+                    android:tag="2"
+                    android:text="" />
+
+                <org.webrtc.SurfaceViewRenderer
+                    android:id="@+id/remote_view4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/fourthpeer_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="16dp"
+                    android:textColor="#fff" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1">
+
+                <Button
+                    android:id="@+id/button5"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="onParticipantsClicked"
+                    android:tag="3"
+                    android:text="" />
+
+                <org.webrtc.SurfaceViewRenderer
+                    android:id="@+id/remote_view5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/fifthpeer_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="16dp"
+                    android:textColor="#fff" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1">
+
+                <Button
+                    android:id="@+id/button6"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="onParticipantsClicked"
+                    android:tag="4"
+                    android:text="" />
+
+                <org.webrtc.SurfaceViewRenderer
+                    android:id="@+id/remote_view6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/sixthpeer_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="16dp"
+                    android:textColor="#fff" />
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1">
+
+                <Button
+                    android:id="@+id/button7"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="onParticipantsClicked"
+                    android:tag="5"
+                    android:text="" />
+
+                <org.webrtc.SurfaceViewRenderer
+                    android:id="@+id/remote_view7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/seventhpeer_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="16dp"
+                    android:textColor="#fff" />
+            </FrameLayout>
+
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1">
+
+                <Button
+                    android:id="@+id/button8"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:onClick="onParticipantsClicked"
+                    android:tag="6"
+                    android:text="" />
+
+                <org.webrtc.SurfaceViewRenderer
+                    android:id="@+id/remote_view8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/eighthpeer_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="16dp"
+                    android:textColor="#fff" />
+            </FrameLayout>
+
+
+        </GridLayout>
+
+        <LinearLayout
+            android:id="@+id/buttons_call_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center|bottom"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp">
+
+            <ImageButton
+                android:id="@+id/disconnect_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:elevation="8dp"
+                android:background="@android:drawable/ic_delete"
+                android:contentDescription="Disconnect call" />
+
+            <ImageButton
+                android:id="@+id/switch_camera_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:elevation="8dp"
+                android:background="@android:drawable/ic_menu_camera"
+                android:contentDescription="Switch camera" />
+
+            <ImageButton
+                android:id="@+id/toggle_mic_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:elevation="8dp"
+                android:background="@android:drawable/ic_btn_speak_now"
+                android:contentDescription="Toggle Mic" />
+
+            <ImageButton
+                android:id="@+id/toggle_video_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:elevation="8dp"
+                android:background="@android:drawable/ic_media_play"
+                android:contentDescription="Toggle video" />
+
+        </LinearLayout>
+    </FrameLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

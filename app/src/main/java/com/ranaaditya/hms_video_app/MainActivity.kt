@@ -5,6 +5,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.StrictMode
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,11 +31,31 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_settings) {
+            val callIntent = Intent(this@MainActivity, SettingsActivity::class.java)
+            callIntent.putExtra("from", "launchscreen")
+            startActivity(callIntent)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_video, menu)
+        return true
+    }
+
     fun GenerateUserRoomToken() {
         var resultString = ""
 
         if (mainRoomId.text.isEmpty()) {
-            Toast.makeText(applicationContext, "Room id is a mandatory parameter", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                applicationContext,
+                "Room id is a mandatory parameter",
+                Toast.LENGTH_LONG
+            ).show()
         }
 
         // create your json here
@@ -44,7 +66,13 @@ class MainActivity : AppCompatActivity() {
             tokenJsonObject.put("room_id", mainRoomId.text.toString())
             tokenJsonObject.put("user_name", mainUserName.text.toString())
             tokenJsonObject.put("role", "Guest")
-            tokenJsonObject.put("env", mainEndpoint.text.toString().split("\\.".toRegex()).toTypedArray()[0].replace("wss://", ""))
+            tokenJsonObject.put(
+                "env",
+                mainEndpoint.text.toString().split("\\.".toRegex()).toTypedArray()[0].replace(
+                    "wss://",
+                    ""
+                )
+            )
 
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -82,7 +110,11 @@ class MainActivity : AppCompatActivity() {
 
             roomIntent.putExtra("server", mainEndpoint.text.toString())
             roomIntent.putExtra("room", mainRoomId.text.toString())
-            roomIntent.putExtra("user", if (mainUserName.text.toString().isEmpty()) "rana" else mainUserName.getText().toString())
+            roomIntent.putExtra(
+                "user",
+                if (mainUserName.text.toString().isEmpty()) "rana" else mainUserName.getText()
+                    .toString()
+            )
             roomIntent.putExtra("auth_token", res)
             roomIntent.putExtra("env", "others")
 

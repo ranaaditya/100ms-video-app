@@ -1,6 +1,7 @@
 package com.ranaaditya.hms_video_app
 
 import android.Manifest
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Build
@@ -10,8 +11,7 @@ import android.os.Looper
 
 import android.preference.PreferenceManager
 import android.util.Log
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -38,6 +38,15 @@ class RoomActivity : AppCompatActivity(), HMSEventListener {
 
     val TAG: String = "DEBUG ROOMACTIVITY"
 
+    private var DEFAULT_PUBLISH_VIDEO = true
+    private var DEFAULT_PUBLISH_AUDIO = true
+    private var DEFAULT_VIDEO_RESOLUTION = "640 x 480"
+    private var DEFAULT_VIDEO_BITRATE = "256"
+    private var DEFAULT_VIDEO_FRAMERATE = "30"
+    private var DEFAULT_CODEC = "VP8"
+    private val FRONT_FACING_CAMERA = "user"
+    private val REAR_FACING_CAMERA = "environment"
+
     lateinit var serverName: String
     lateinit var roomName: String
     lateinit var userName: String
@@ -53,7 +62,7 @@ class RoomActivity : AppCompatActivity(), HMSEventListener {
     lateinit var userRoom: HMSRoom
     lateinit var configurations: HMSClientConfig
     lateinit var hmsClient: HMSClient
-    lateinit var userMediaConstraints: HMSRTCMediaStreamConstraints
+    var userMediaConstraints: HMSRTCMediaStreamConstraints = HMSRTCMediaStreamConstraints(true, DEFAULT_PUBLISH_VIDEO)
 
     var userMediaStream: HMSRTCMediaStream? = null
     var userVideoTrack: VideoTrack? = null
@@ -75,16 +84,6 @@ class RoomActivity : AppCompatActivity(), HMSEventListener {
     var delay: Int = 0
     var retryCount: Int = 0
     var maxRetryCount: Int = 40
-
-
-    private var DEFAULT_PUBLISH_VIDEO = true
-    private var DEFAULT_PUBLISH_AUDIO = true
-    private var DEFAULT_VIDEO_RESOLUTION = "640 x 480"
-    private var DEFAULT_VIDEO_BITRATE = "256"
-    private var DEFAULT_VIDEO_FRAMERATE = "30"
-    private var DEFAULT_CODEC = "VP8"
-    private val FRONT_FACING_CAMERA = "user"
-    private val REAR_FACING_CAMERA = "environment"
 
     private var TOTAL_REMOTE_PEERS = 7
     private var remoteSurfaceViewRenderers = arrayOfNulls<SurfaceViewRenderer>(TOTAL_REMOTE_PEERS)
@@ -134,6 +133,22 @@ class RoomActivity : AppCompatActivity(), HMSEventListener {
 
         startRoomProcess()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_video, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_settings) {
+            val callIntent = Intent(this@RoomActivity, SettingsActivity::class.java)
+            callIntent.putExtra("from", "videoscreen")
+            startActivity(callIntent)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     fun startRoomProcess() {
@@ -698,7 +713,10 @@ class RoomActivity : AppCompatActivity(), HMSEventListener {
             if (data.videoTracks.size > 0) {
                 if (remoteSurfaceViewRenderers[position] == null) {
 
-                    remoteSurfaceViewRenderers[position]!!.init(HMSWebRTCEglUtils.getRootEglBaseContext(), null)
+                    remoteSurfaceViewRenderers[position]!!.init(
+                        HMSWebRTCEglUtils.getRootEglBaseContext(),
+                        null
+                    )
                     remoteSurfaceViewRenderers[position]!!.setScalingType(RendererCommon.ScalingType.SCALE_ASPECT_FILL)
                     remoteSurfaceViewRenderers[position]!!.setEnableHardwareScaler(true)
 
@@ -712,7 +730,6 @@ class RoomActivity : AppCompatActivity(), HMSEventListener {
     }
 
     override fun onStreamRemove(hmsStreamInfo: HMSStreamInfo) {
-        Log.d(TAG, "onstream remove:" + hmsStreamInfo.uid)
 
         printAllUserdata()
         var i = 0
